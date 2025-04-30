@@ -7,7 +7,7 @@ public class UserManagement {
     private static final String dbURL=dotenv.get("DB_URL");
     private static final String dbUser=dotenv.get("DB_USER");
     private static final String dbPassword=dotenv.get("DB_PASSWORD");
-    public boolean addNewUser(String email,String username, String password) {
+    public boolean addUser(String email,String username, String password) {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection=DriverManager.getConnection(dbURL,dbUser,dbPassword);
@@ -47,23 +47,25 @@ public class UserManagement {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection=DriverManager.getConnection(dbURL,dbUser,dbPassword);
-            PreparedStatement preparedStatement=connection.prepareStatement("select * from user_details where email=? AND password=?");
-            String hashedPassword=Hashing.hashPassword(oldPassword);
+            PreparedStatement preparedStatement=connection.prepareStatement("SELECT password FROM USER_DETAILS WHERE email=?");
             preparedStatement.setString(1,email);
-            preparedStatement.setString(2,hashedPassword);
             ResultSet resultSet=preparedStatement.executeQuery();
-            if (resultSet.next()){
-                preparedStatement=connection.prepareStatement("update user_details set name=?,password=? where email=?");
-                preparedStatement.setString(1, newUsername);
-                preparedStatement.setString(2,newPassword);
+            if (!resultSet.next()){
+                System.out.println("Email not found in database");
+                return false;
+            }
+            String hashedOldPassword=resultSet.getString("password");
+            boolean correctPassword=Hashing.checkPassword(oldPassword,hashedOldPassword);
+            if (correctPassword){
+                preparedStatement=connection.prepareStatement("UPDATE USER_DETAILS SET password=?,name=? WHERE email=?");
+                preparedStatement.setString(1,Hashing.hashPassword(newPassword));
+                preparedStatement.setString(2,newUsername);
                 preparedStatement.setString(3,email);
                 preparedStatement.executeUpdate();
-                System.out.println("Updated User");
+                System.out.println("Updated details");
                 return true;
             }
-            else{
-                System.out.println("Could not update user");
-            }
+            System.out.println("Password does not match");
         }
         catch (ClassNotFoundException e) {
             System.out.println("Driver not found");
