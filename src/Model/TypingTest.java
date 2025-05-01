@@ -22,17 +22,17 @@ public class TypingTest {
 
                     //Medium
                     {
-                            "The engineer adjusted the settings to optimize performance — it wasn’t easy.",
+                            "The engineer adjusted the settings to optimize performance - it wasn’t easy.",
                             "\"Are you coming to the meeting tomorrow?\" she asked, checking her watch.",
                             "His handwriting was almost illegible, but the signature was unmistakable.",
-                            "After hours of work, they finally solved the puzzle — the solution was right in front of them.",
+                            "After hours of work, they finally solved the puzzle - the solution was right in front of them.",
                             "The teacher wrote “excellent” on the paper and added a star (well deserved)"
                     },
 
                     //Hard
                     {
                             "As the scientist examined the data (which was both complex and extensive), she noticed a subtle anomaly",
-                            "\"If we don’t act soon,\" the manager declared, \"we’ll lose everything — time is critical.\"",
+                            "\"If we don’t act soon,\" the manager declared, \"we’ll lose everything  time is critical.\"",
                             "The intricate details of the experiment demanded a level of precision that most people couldn’t comprehend.",
                             "While the philosopher pondered the meaning of existence, his thoughts were interrupted by a constant hum",
                             "\"Did you hear the news?\" he asked, barely able to contain his excitement. \"The impossible just happened!\""
@@ -81,19 +81,19 @@ public class TypingTest {
             // Medium
             {
                     "After years of hard work and dedication, she had finally earned the promotion she had been striving for. It wasn’t an easy road; countless late nights, difficult decisions, and sacrifices had come with the territory, but she had made it. As she sat at her new desk, looking out at the view of the bustling city below, she couldn’t help but reflect on how far she had come. It was a proud moment, but she knew the real work was just beginning.",
-                    "The old library had always been a quiet and comforting place for him, a place where he could escape into the world of books and lose himself in stories that seemed far more interesting than the real world. But as he sat there one afternoon, he noticed something strange—a book that had never been there before, lying on the table. It looked worn and aged, as if it had been sitting there for years waiting to be discovered, and he felt an odd sense of curiosity stir within him.",
+                    "The old library had always been a quiet and comforting place for him, a place where he could escape into the world of books and lose himself in stories that seemed far more interesting than the real world. But as he sat there one afternoon, he noticed something strange-a book that had never been there before, lying on the table. It looked worn and aged, as if it had been sitting there for years waiting to be discovered, and he felt an odd sense of curiosity stir within him.",
                     "As the storm raged outside, the group gathered around the fireplace inside the cozy cabin. The wind howled through the trees, and the rain beat against the windows, but the warmth of the fire and the company of friends kept them safe and secure. They shared stories, laughed together, and enjoyed each other’s company, all while the weather outside seemed to grow more intense. It was a night that they would remember for a long time, a reminder of the bond they shared in the face of the elements.",
                     "The concert hall was packed with people, all eagerly waiting for the performance to begin. The lights dimmed, and the audience fell into a hush as the orchestra took their seats. He could feel the anticipation building in the air, the collective excitement of everyone in the room. When the first notes of the symphony rang out, it was as if time stood still, and for the next few hours, they were all carried away by the music, lost in its beauty and power.",
-                    "The project was nearly complete, but there was still so much left to do. As he looked at the final draft of the report, he realized that there were several sections that still needed improvement. It wasn’t just about finishing the task—it was about doing it right. He could feel the pressure mounting, but he remained focused, knowing that the final product would be worth the effort. As the deadline approached, he tightened his grip on the work ahead, determined to finish strong."
+                    "The project was nearly complete, but there was still so much left to do. As he looked at the final draft of the report, he realized that there were several sections that still needed improvement. It wasn’t just about finishing the task-it was about doing it right. He could feel the pressure mounting, but he remained focused, knowing that the final product would be worth the effort. As the deadline approached, he tightened his grip on the work ahead, determined to finish strong."
             },
 
             // Hard
             {
-                    "The investigation was beginning to unravel, but they were nowhere near the answers they sought. Evidence was scattered, and leads that seemed promising at first now appeared to be dead ends. Yet, they pressed on, determined to uncover the truth no matter the cost. The deeper they dug, the more complex the case became, and the more they realized that everything was connected in ways they hadn’t even imagined. They couldn’t afford to stop now—not when they were so close to understanding the full scope of what had happened.",
+                    "The investigation was beginning to unravel, but they were nowhere near the answers they sought. Evidence was scattered, and leads that seemed promising at first now appeared to be dead ends. Yet, they pressed on, determined to uncover the truth no matter the cost. The deeper they dug, the more complex the case became, and the more they realized that everything was connected in ways they hadn’t even imagined. They couldn’t afford to stop now-not when they were so close to understanding the full scope of what had happened.",
                     "It had been a long, grueling journey to get here, but they had finally reached the summit. The path had been rocky, and there were times when they doubted they would make it, but the view from the top was worth every bit of struggle. As they stood there, taking in the breathtaking landscape, they couldn’t help but feel a sense of accomplishment and awe. There was something about standing on top of the world, looking down at the vast expanse below, that made all the hardships feel insignificant in comparison.",
                     "\"Are you sure we should go through with this?\" she asked, her voice shaking slightly as she looked at the complex blueprint in front of her. The plan was risky, and there was no telling what might go wrong, but the stakes were higher than they had ever been. \"We’ve come this far, and we can’t turn back now,\" he replied, his voice steady and determined. They exchanged a glance, knowing that this decision would change everything, for better or worse.",
-                    "The night was dark, and the only sounds were the occasional rustle of leaves in the wind and the distant calls of nocturnal animals. They walked silently through the forest, each step carefully measured as they navigated the winding trail. The weight of the situation hung heavy in the air, and no one spoke for what felt like an eternity. Finally, one of them broke the silence. \"We need to be careful—this isn’t over yet.\"",
-                    "It was an unexpected turn of events, one that left everyone in the room speechless. The meeting had started off as just another routine discussion, but now the fate of the project—and possibly the company—was in jeopardy. No one had anticipated such a dramatic shift in direction, and the pressure to find a solution was mounting by the second. As the room fell into silence, each person sat, weighing the consequences of the new proposal, and wondering how they would proceed."
+                    "The night was dark, and the only sounds were the occasional rustle of leaves in the wind and the distant calls of nocturnal animals. They walked silently through the forest, each step carefully measured as they navigated the winding trail. The weight of the situation hung heavy in the air, and no one spoke for what felt like an eternity. Finally, one of them broke the silence. \"We need to be careful-this isn’t over yet.\"",
+                    "It was an unexpected turn of events, one that left everyone in the room speechless. The meeting had started off as just another routine discussion, but now the fate of the project-and possibly the company-was in jeopardy. No one had anticipated such a dramatic shift in direction, and the pressure to find a solution was mounting by the second. As the room fell into silence, each person sat, weighing the consequences of the new proposal, and wondering how they would proceed."
             }
     };
 
@@ -117,8 +117,9 @@ public class TypingTest {
             }
         }
         int wpm=(correctCharacters*12)/(int)(duration.getSeconds());
+        int errors=input.length()-correctCharacters+paragraph.length()-input.length();
         statistics.put("WPM",wpm);
-        statistics.put("Errors",input.length()-correctCharacters);
+        statistics.put("Errors",errors);
         System.out.println("WPM:"+wpm);
         System.out.println("Errors:"+(input.length()-correctCharacters));
     }
@@ -140,8 +141,9 @@ public class TypingTest {
             }
         }
         int wpm=(correctCharacters*12)/(int)(duration.getSeconds());
+        int errors=input.length()-correctCharacters+paragraph.length()-input.length();
         statistics.put("WPM",wpm);
-        statistics.put("Errors",input.length()-correctCharacters);
+        statistics.put("Errors",errors);
         System.out.println("WPM:"+wpm);
         System.out.println("Errors:"+(input.length()-correctCharacters));
     }
@@ -163,8 +165,9 @@ public class TypingTest {
             }
         }
         int wpm=(correctCharacters*12)/(int)(duration.getSeconds());
+        int errors=input.length()-correctCharacters+paragraph.length()-input.length();
         statistics.put("WPM",wpm);
-        statistics.put("Errors",input.length()-correctCharacters);
+        statistics.put("Errors",errors);
         System.out.println("WPM:"+wpm);
         System.out.println("Errors:"+(input.length()-correctCharacters));
     }
