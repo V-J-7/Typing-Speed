@@ -2,20 +2,28 @@ package Model;
 import io.github.cdimascio.dotenv.Dotenv;
 import java.sql.*;
 
-public class UserManagement {
+public class UserManager {
     private static final Dotenv dotenv = Dotenv.configure().load();
     private static final String dbURL = dotenv.get("DB_URL");
     private static final String dbUser = dotenv.get("DB_USER");
     private static final String dbPassword = dotenv.get("DB_PASSWORD");
-
+    public UserManager() {
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Driver not found");
+        }
+    }
     public boolean addUser(String email, String username, String password) {
+        Connection connection=null;
+        PreparedStatement preparedStatement = null;
         try {
             //Connection
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(dbURL, dbUser, dbPassword);
+            connection = DriverManager.getConnection(dbURL, dbUser, dbPassword);
 
             //Inserting new user statement
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into user_details(email,name,password) values(?,?,?)");
+            preparedStatement = connection.prepareStatement("insert into user_details(email,name,password) values(?,?,?)");
 
             //password follows the format
             if (Validator.validatePassword(password)) {
@@ -35,27 +43,36 @@ public class UserManagement {
             preparedStatement.setString(2, username);
             preparedStatement.executeUpdate();
             System.out.println("User Registered");
-        } catch (SQLIntegrityConstraintViolationException e) {
+        }
+        catch (SQLIntegrityConstraintViolationException e) {
             System.out.println("User Already in the database");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Driver not found");
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             System.out.println("User could not be added");
+        }
+        finally {
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                System.out.println("Failed to close resources");
+            }
         }
         return true;
     }
 
-    public boolean updateUser(String email, String newUsername, String oldPassword, String newPassword) {
+    public boolean updateUser(String email, String newUsername, String newPassword) {
         if (email == null) {
             System.out.println("Email not provided");
             return false;
         }
+        Connection connection=null;
+        PreparedStatement preparedStatement = null;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(dbURL, dbUser, dbPassword);
+            connection = DriverManager.getConnection(dbURL, dbUser, dbPassword);
 
             //Get all the old details
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM USER_DETAILS WHERE email=?");
+            preparedStatement = connection.prepareStatement("SELECT * FROM USER_DETAILS WHERE email=?");
             preparedStatement.setString(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -66,13 +83,11 @@ public class UserManagement {
             }
             String oldUsername = resultSet.getString("name");
             String hashedOldPassword = resultSet.getString("password");
-            boolean correctPassword = Hashing.checkPassword(oldPassword, hashedOldPassword);
-            if (correctPassword){
+                //Update new details
                 preparedStatement = connection.prepareStatement("UPDATE user_details SET password=?,name=? WHERE email=?");
                 if (newPassword.equals("n")) {
                     preparedStatement.setString(1, hashedOldPassword);
-                }
-                else {
+                } else {
                     if (!Validator.validatePassword(newPassword)) {
                         System.out.println("Invalid password format");
                         return false;
@@ -88,54 +103,42 @@ public class UserManagement {
                 preparedStatement.executeUpdate();
                 System.out.println("Updated details");
                 return true;
+        }
+        catch (SQLException e) {
+            System.out.println("Invalid query");
+        }
+        finally {
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                System.out.println("Failed to close resources");
             }
-        } catch (ClassNotFoundException e) {
-            System.out.println("Driver not found");
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return false;
     }
-
-    public boolean emailRegistered(String email) {
-        try {
-            //Connection
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(dbURL, dbUser, dbPassword);
-
-            //Inserting new user statement
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM user_details where email=?");
+    public boolean deleteUser(String email) {
+        Connection connection=null;
+        PreparedStatement preparedStatement = null;
+        try{
+            connection=DriverManager.getConnection(dbURL, dbUser, dbPassword);
+            preparedStatement=connection.prepareStatement("DELETE FROM user_details WHERE email=?");
             preparedStatement.setString(1, email);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            return resultSet.next();
+            preparedStatement.executeUpdate();
+            return true;
         }
-        catch (ClassNotFoundException e) {
-            System.out.println("Driver not found");
+        catch(SQLException e){
+            System.out.println("Failed to delete user");
         }
-        catch (SQLException e) {
-            System.out.println("SQL Error");
+        finally {
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                System.out.println("Failed to close resources");
+            }
         }
         return false;
     }
-    public boolean correctPassword(String email,String password) {
-        try {
-            //Connection
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(dbURL, dbUser, dbPassword);
 
-            //Inserting new user statement
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM user_details where email=?");
-            preparedStatement.setString(1, email);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            return Hashing.checkPassword(password, resultSet.getString("password"));
-        }
-        catch (ClassNotFoundException e) {
-            System.out.println("Driver not found");
-        }
-        catch (SQLException e) {
-            System.out.println("SQL Error");
-        }
-        return false;
-    }
 }

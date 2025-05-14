@@ -3,22 +3,23 @@ package View;
 import Controller.ManageStatistics;
 import Model.Authentication;
 import Model.TypingTest;
-import Model.UserManagement;
+import Model.UserManager;
 import Model.Validator;
 
 import java.util.Scanner;
 
 public class UserInterface {
-    UserManagement userManager=new UserManagement();
+    UserManager userManager=new UserManager();
     ManageStatistics statisticsManager=new ManageStatistics();
     Scanner sc = new Scanner(System.in);
     void start(){
+        int flag=1;
         while (true){
+            if (flag==0)break;
             System.out.println("Welcome to the Typing Test!");
             System.out.println("1.Register");
             System.out.println("2.Login");
-            System.out.println("3.Update User details");
-            System.out.println("4.Exit");
+            System.out.println("3.Exit");
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
             switch(choice){
@@ -29,9 +30,7 @@ public class UserInterface {
                     login();
                     break;
                 case 3:
-                    updateUser();
-                    break;
-                case 4:
+                    flag=0;
                     break;
                 default:
                     System.out.println("Invalid choice");
@@ -43,12 +42,12 @@ public class UserInterface {
         System.out.print("Enter your email:");
         String email=sc.next();
         while (!Validator.validateEmail(email)){
+            System.out.println("Invalid email");
             System.out.print("Enter your email:");
             email = sc.next();
         }
         System.out.print("Enter your name:");
-        String name = sc.nextLine();
-        sc.nextLine();
+        String name = sc.next();
         System.out.print("Enter your password:");
         String password=sc.next();
         while (!Validator.validatePassword(password)){
@@ -56,6 +55,7 @@ public class UserInterface {
             password = sc.next();
         }
         userManager.addUser(email,name,password);
+        insideLogin(email);
     }
     void login(){
         System.out.println("----------Login----------");
@@ -71,7 +71,9 @@ public class UserInterface {
         while (true){
             System.out.println("1.View Statistics");
             System.out.println("2.Take Typing Test");
-            System.out.println("3.Logout");
+            System.out.println("3.Update User details");
+            System.out.println("4.Logout");
+            System.out.println("5.Delete Account");
             System.out.print("Enter your choice:");
             int choice=sc.nextInt();
             switch(choice){
@@ -85,8 +87,21 @@ public class UserInterface {
                     }
                     break;
                 case 3:
+                    updateUser(email);
+                    break;
+                case 4:
                     System.out.println("----------Exiting----------");
                     start();
+                    break;
+                case 5:
+                    System.out.print("Confirm your choice (y/n)?");
+                    char yesno=sc.next().charAt(0);
+                    if (yesno=='y'){
+                        userManager.deleteUser(email);
+                        statisticsManager.deleteStatistics(email);
+                        System.out.println("Account Deleted!");
+                        start();
+                    }
                     break;
                 default:
                     System.out.println("Invalid choice");
@@ -139,30 +154,16 @@ public class UserInterface {
                 System.out.println("Invalid input");
         }
     }
-    void updateUser(){
+    void updateUser(String email){
         System.out.println("----------Update User----------");
-        System.out.print("Enter your email:");
-        String email=sc.next();
-        if (!userManager.emailRegistered(email)){
-            System.out.println("Email not registered");
-            return;
-        }
-        String newPassword="",newUsername="";
-        System.out.print("Enter your old password:");
-        String oldPassword=sc.next();
-        while (!userManager.correctPassword(email,oldPassword)){
-            System.out.print("Enter your old password:");
-            oldPassword=sc.next();
-            System.out.println("Wrong password");
-        }
         System.out.print("Enter your new password (type n if you don't want to update):");
-        newPassword=sc.next();
+        String newPassword=sc.next();
         while (!newPassword.equals("n") && !Validator.validatePassword(newPassword)){
             System.out.print("Enter your new password:");
             newPassword=sc.next();
         }
         System.out.print("Enter your new username (type n if you don't want to update):");
-        newUsername=sc.next();
-        userManager.updateUser(email,oldPassword,newPassword,newUsername);
+        String newUsername=sc.next();
+        userManager.updateUser(email,newUsername,newPassword);
     }
 }

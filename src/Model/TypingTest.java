@@ -98,86 +98,51 @@ public class TypingTest {
     };
 
 
-    private HashMap<String,Integer> statistics =new HashMap<>();
+    private HashMap<String,Double> statistics =new HashMap<>();
 
     public void shortTests(int level){
-        String[] paragraphs= shortLengthParagraphs[level];
-        int index=random.nextInt(paragraphs.length);
-        String paragraph=paragraphs[index];
-        printWrapped(paragraph, 80);
-        Instant start=Instant.now();
-        String input=sc.nextLine();
-        Instant end=Instant.now();
-        Duration duration= Duration.between(start, end);
-        int correctCharacters =0;
-        int minLength=Math.min(paragraph.length(),input.length());
-        for (int i=0;i<minLength;i++){
-            if (paragraph.charAt(i)==input.charAt(i)){
-                correctCharacters++;
-            }
-        }
-        int wpm=(correctCharacters*12)/(int)(duration.getSeconds());
-        int errors=input.length()-correctCharacters+paragraph.length()-input.length();
-        statistics.put("WPM",wpm);
-        statistics.put("Errors",errors);
-        System.out.println("WPM:"+wpm);
-        System.out.println("Errors:"+(input.length()-correctCharacters));
+        test(shortLengthParagraphs,level);
     }
 
     public void mediumTests(int level){
-        String[] paragraphs= mediumLengthParagraphs[level];
-        int index=random.nextInt(paragraphs.length);
-        String paragraph=paragraphs[index];
-        printWrapped(paragraph, 80);
-        Instant start=Instant.now();
-        String input=sc.nextLine();
-        Instant end=Instant.now();
-        Duration duration= Duration.between(start, end);
-        int correctCharacters =0;
-        int minLength=Math.min(paragraph.length(),input.length());
-        for (int i=0;i<minLength;i++){
-            if (paragraph.charAt(i)==input.charAt(i)){
-                correctCharacters++;
-            }
-        }
-        int wpm=(correctCharacters*12)/(int)(duration.getSeconds());
-        int errors=input.length()-correctCharacters+paragraph.length()-input.length();
-        statistics.put("WPM",wpm);
-        statistics.put("Errors",errors);
-        System.out.println("WPM:"+wpm);
-        System.out.println("Errors:"+(input.length()-correctCharacters));
+        test(mediumLengthParagraphs,level);
     }
 
     public void longTests(int level){
-        String[] paragraphs= longLengthParagraphs[level];
+        test(longLengthParagraphs,level);
+    }
+    public void test(String[][] sentence,int level){
+        String[] paragraphs= sentence[level];
         int index=random.nextInt(paragraphs.length);
         String paragraph=paragraphs[index];
-        printWrapped(paragraph, 80);
+        printWrapped(paragraph);
         Instant start=Instant.now();
         String input=sc.nextLine();
         Instant end=Instant.now();
         Duration duration= Duration.between(start, end);
+        //Time taken
         int correctCharacters =0;
         int minLength=Math.min(paragraph.length(),input.length());
+        //Error calculation
         for (int i=0;i<minLength;i++){
             if (paragraph.charAt(i)==input.charAt(i)){
                 correctCharacters++;
             }
         }
-        int wpm=(correctCharacters*12)/(int)(duration.getSeconds());
-        int errors=input.length()-correctCharacters+paragraph.length()-input.length();
+        long seconds=Math.max(duration.getSeconds(),1);
+        double wpm=(correctCharacters*12)/(double)seconds;
+        double accuracy=(double)correctCharacters/paragraph.length()*100;
         statistics.put("WPM",wpm);
-        statistics.put("Errors",errors);
-        System.out.println("WPM:"+wpm);
-        System.out.println("Errors:"+(input.length()-correctCharacters));
+        statistics.put("Accuracy",accuracy);
+        System.out.println("WPM:"+(int)wpm);
+        System.out.printf("Accuracy:%.2f%%\n",accuracy);
     }
-
-    public int getStatistic(String statistic) {
+    public double getStatistic(String statistic) {
         return statistics.get(statistic);
     }
-    private void printWrapped(String text, int lineWidth) {
-        for (int i = 0; i < text.length(); i += lineWidth) {
-            System.out.println(text.substring(i, Math.min(text.length(), i + lineWidth)));
+    private void printWrapped(String text) {
+        for (int i = 0; i < text.length(); i += 80) {
+            System.out.println(text.substring(i, Math.min(text.length(), i + 80)));
         }
     }
 }
